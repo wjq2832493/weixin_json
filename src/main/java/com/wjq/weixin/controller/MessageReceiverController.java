@@ -4,6 +4,7 @@ import javax.xml.bind.JAXB;
 
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.wjq.weixin.domain.InMessage;
 import com.wjq.weixin.service.MessageService;
 import com.wjq.weixin.service.MessageTypeRegister;
@@ -23,7 +25,9 @@ public class MessageReceiverController {
 	// 自动从Spring容器里面获取一个消息服务出来，用于处理转换后的消息。现在还未实现消息的处理
 	@Autowired
 	private MessageService messageService;
-
+	@Autowired
+	@Qualifier("xmlMapper")
+	private XmlMapper xmlMapper;
 	private static final Logger LOG = org.slf4j.LoggerFactory.getLogger(MessageReceiverController.class);
 
 	// 必须要有Handler方法才不会出现404
@@ -60,8 +64,16 @@ public class MessageReceiverController {
 		// 根据消息类型，找到对应的Java类型
 		Class<? extends InMessage> cla = MessageTypeRegister.getClass(type);
 		// 使用JAXB的API完成消息转换
-			InMessage inMessage = JAXB.unmarshal(xml, cla);
-			this.messageService.onMessage(inMessage);
+				//InMessage inMessage = JAXB.unmarshal(xml, cla);
+				//使用Json的API完成消息转换
+				try {
+					InMessage inMessage = xmlMapper.readValue(xml,cla);
+					this.messageService.onMessage(inMessage);
+				} catch (Exception e) {
+					LOG.error("处理公众号信息出错:{}",e.getMessage());
+					LOG.error("处理公众号信息出错详情:{}",e);
+				
+				} 
 		return "success";
 
 	}
