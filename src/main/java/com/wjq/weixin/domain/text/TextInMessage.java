@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wjq.weixin.domain.InMessage;
 
 @XmlRootElement(name="xml")//指定xml的根元素名称
@@ -15,6 +16,7 @@ public class TextInMessage extends InMessage {
 	 */
 	private static final long serialVersionUID = 1L;
 @XmlElement(name="Content")
+@JsonProperty("Content")
 	private String  content;
 	public TextInMessage(String type) {
 		super("text");

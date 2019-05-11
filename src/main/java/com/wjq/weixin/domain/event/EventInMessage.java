@@ -5,6 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.wjq.weixin.domain.InMessage;
 @XmlRootElement(name="xml")//指定xml的根元素名称
 @XmlAccessorType(XmlAccessType.FIELD)//指定属性的访问方式为字段
@@ -16,9 +17,11 @@ public class EventInMessage extends InMessage {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(name="Event")
+	@JsonProperty("Event")
 	private String event;
 	
 	@XmlElement(name="EventKey")
+	@JsonProperty("EventKey")
 	private String eventKey;
 	 
   public EventInMessage(String type) {
