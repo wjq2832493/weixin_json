@@ -9,13 +9,17 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 @SpringBootApplication
 public class WeixinApplication {
-@Bean
-public  XmlMapper xmlMapper() {
-	XmlMapper mapper=new XmlMapper(StaxUtils.createDefensiveInputFactory());
-	return mapper;
-}
+	
 	public static void main(String[] args) {
 		SpringApplication.run(WeixinApplication.class, args);
 	}
+	@Bean()
+	public XmlMapper xmlMapper() {
+		XmlMapper mapper = new XmlMapper(StaxUtils.createDefensiveInputFactory());
+
+		return mapper;
+
+	}
+	
 
 }

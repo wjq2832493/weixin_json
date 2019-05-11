@@ -4,6 +4,6 @@ import com.wjq.weixin.domain.InMessage;
 import com.wjq.weixin.domain.OutMessage;
 
 public interface MessageService {
-	OutMessage  onMessage(InMessage msg);
 
+	OutMessage onMessage(InMessage msg);
 }
